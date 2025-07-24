@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>フリップ単語帳</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    #wordList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .card {
+      width: 120px;
+      height: 80px;
+      perspective: 1000px;
+    }
+    .inner-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .card.flipped .inner-card {
+      transform: rotateY(180deg);
+    }
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
+    }
+    .back {
+      transform: rotateY(180deg);
+      background: #cce5ff;
+    }
+  </style>
+</head>
+<body>
+  <h1>フリップ単語帳</h1>
+  <div id="wordList"></div>
+  <a href="Untitled-1.html">back</a>
+  <a href="otherpage.html">other's vocabulary</a>
+
+  <script>
+    // サンプルデータ（localStorageから読み込む場合は適宜変更）
+
+    const wordList = document.getElementById('wordList');
+    const words = JSON.parse(localStorage.getItem('words')) || [];
+
+    words.forEach(word => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="inner-card" onclick="this.parentElement.classList.toggle('flipped')">
+          <div class="front">${word.english}</div>
+          <div class="back">${word.meaning}</div>
+        </div>
+      `;
+      wordList.appendChild(card);
+
+    });
+  </script>
+</body>
+</html>
